@@ -79,7 +79,7 @@ Canvas {
         ctx.beginPath();
         ctx.lineWidth = 150;
         ctx.strokeStyle = gradient2
-        ctx.arc(canvas.centerWidth, canvas.centerHeight, canvas.radius - (ctx.lineWidth / 2), canvas.angleOffset, canvas.angleOffset + canvas.angle, true);
+        ctx.arc(canvas.centerWidth, canvas.centerHeight, (canvas.radius - (ctx.lineWidth / 2))/2, canvas.angleOffset, canvas.angleOffset + canvas.angle, true);
         ctx.stroke();
 
         ctx.restore();
