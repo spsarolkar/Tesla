@@ -5,7 +5,7 @@ Item {
     property int speed: 0
 
 
-    height: 250 //TODO: Groesse skalierbar machen
+    height: 200  //TODO: Groesse skalierbar machen
     width: height
     x: (parent.width / 2) - (width / 2)
     y: (parent.height / 2) - (height / 2)

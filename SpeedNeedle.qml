@@ -23,7 +23,7 @@ Canvas {
         id: zeiger
         rotation: -150 //siehe minrotation
         width: 4
-        height: parent.width / 2
+        height: parent.width / 4
         transformOrigin: Item.Bottom
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.verticalCenter
