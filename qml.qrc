@@ -25,5 +25,8 @@
         <file>pics/Efficiency.png</file>
         <file>RightElement.qml</file>
         <file>pics/call.png</file>
+        <file>pics/TachoRPM.png</file>
+        <file>FuelNeedle.qml</file>
+        <file>RPMNeedle.qml</file>
     </qresource>
 </RCC>

@@ -6,12 +6,22 @@ Canvas {
 
     property int value : 0
 
-    onValueChanged: {zeiger.rotation = Math.min(Math.max(-250, canvas.value*3.5 - 149), -30); canvas.currentValue = zeiger.rotation - 211} //130 minrotation, -30 maxrotation
+    onValueChanged: {
+
+        var rotate = -150 +  Math.min(canvas.value,80)* 120/80//Math.min(Math.max(-250, canvas.value*3.5 - 149), -30);
+        if(canvas.value>80)
+            rotate += Math.min((canvas.value - 80),20)* 15/20
+        if(canvas.value>100)
+            rotate +=  Math.min((canvas.value - 100),20)* 15/20
+
+        zeiger.rotation = rotate;
+
+        canvas.currentValue = zeiger.rotation - 210} //130 minrotation, -30 maxrotation
     width: parent.width; height: parent.height
 
     Rectangle {
         id: zeiger
-        rotation: -149 //siehe minrotation
+        rotation: -150 //siehe minrotation
         width: 4
         height: parent.width / 2
         transformOrigin: Item.Bottom
@@ -21,12 +31,12 @@ Canvas {
         smooth: true
         antialiasing: true
         color: "#81FFFE"
-        onRotationChanged: {canvas.currentValue = zeiger.rotation - 211; canvas.requestPaint()}//texti.text = zeiger.rotation
+        onRotationChanged: {canvas.currentValue = zeiger.rotation - 210; canvas.requestPaint()}//texti.text = zeiger.rotation
 
             Behavior on rotation {
                 NumberAnimation{
-                    duration: 15000
-                    easing.type: Easing.OutCirc
+                    duration: 500
+                    easing.type: Easing.Linear
                 }
             }
     }
@@ -47,8 +57,8 @@ Canvas {
       // this is the angle that splits the circle in two arcs
       // first arc is drawn from 0 radians to angle radians
       // second arc is angle radians to 2*PI radians
-      property real angle: (currentValue - minimumValue) / (maximumValue - minimumValue) * 2 * Math.PI + 0.01
-      property real angleOffset: 20.955 //to start at 0mph //-Math.PI / 2
+      property real angle: (currentValue - minimumValue) / (maximumValue - minimumValue) * 2 * Math.PI
+      property real angleOffset: 2.1 //to start at 0mph //-Math.PI / 2
 
 
       onPaint: {
@@ -66,6 +76,9 @@ Canvas {
           ctx.beginPath();
           ctx.lineWidth = 150;
           ctx.strokeStyle = gradient2
+
+
+
           ctx.arc(canvas.centerWidth, canvas.centerHeight, canvas.radius - (ctx.lineWidth / 2), canvas.angleOffset, canvas.angleOffset + canvas.angle);
           ctx.stroke();
 

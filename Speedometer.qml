@@ -13,24 +13,33 @@ Rectangle {
                        focus: true
                        Keys.onPressed: {
                                 if (event.key == Qt.Key_Space && !event.isAutoRepeat) {
-                                    speedoNeedle.value = 100
-                                    kWNeedle.value = 0
+                                    speedoNeedle.value = 20
+                                    rpmNeedle.value = 3000
+                                    fuelNeedle.value = 75
+                                    //innerring.info = "All good"
                                     drive()
                                 }
                        }
                        Keys.onReleased: {
                                if (event.key == Qt.Key_Space && !event.isAutoRepeat) {
                                    speedoNeedle.value = 0
-                                   kWNeedle.value = 100
+                                   rpmNeedle.value = 0
+                                   fuelNeedle.value = 0.01
                                }}}
 
-              KWNeedle {
-                  id: kWNeedle
+              RPMNeedle {
+                  id: rpmNeedle
                   anchors.verticalCenterOffset: 0
                   anchors.centerIn: parent
-                  value: 100
+                  value: 0
               }
 
+              FuelNeedle {
+                  id: fuelNeedle
+                  anchors.verticalCenterOffset: 0
+                  anchors.centerIn: parent
+                  value: 0
+              }
 
               InnerRing    {
                 id: innerring

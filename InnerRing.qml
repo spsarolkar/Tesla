@@ -4,10 +4,12 @@ Item {
 
     property int speed: 0
 
+
     height: 335 //TODO: Groesse skalierbar machen
     width: height
     x: (parent.width / 2) - (width / 2)
     y: (parent.height / 2) - (height / 2)
+
 
     Image {
          id: innerRingRect
@@ -22,7 +24,7 @@ Item {
              font.pixelSize: 86
              font.bold: true
              font.family: "Eurostile"
-             y: 40
+             y: 80
              color: "white"
              anchors.horizontalCenter: parent.horizontalCenter
          }
@@ -38,20 +40,15 @@ Item {
              }
 
          Text {
-             text: "mph"
+             text: "km/h"
              font.pixelSize: 16
              font.bold: true
              font.family: "Eurostile"
-             y: 132
+             y: 172
              color: "white"
              anchors.horizontalCenter: parent.horizontalCenter
          }
 
-         Image {
-             source: "/pics/Lade-Balken.png"
-            anchors.horizontalCenter: parent.horizontalCenter
-            y: parent.height /2 + 7
-         }
 
          Text {
              text: "209"
@@ -64,7 +61,7 @@ Item {
          }
 
          Text {
-             text: "Rated Range"
+             text: "Total covered"
              font.pixelSize: 18
              font.bold: true
              font.family: "Eurostile"
