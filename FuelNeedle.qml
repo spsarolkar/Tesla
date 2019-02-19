@@ -69,9 +69,9 @@ Canvas {
         ctx.save();
 
         var gradient2 = ctx.createRadialGradient((parent.width / 2),(parent.height / 2), 200, (parent.width / 2),(parent.height / 2),2);
-         gradient2.addColorStop(1, "#6cf213");   //oben
-        gradient2.addColorStop(0.7, "#6cf213");   //oben
-        gradient2.addColorStop(0.7, "#a5e27c");   //mitte
+         gradient2.addColorStop(0.7, "#6cf213");   //oben
+        gradient2.addColorStop(0.6, "#6cf213");   //oben
+        gradient2.addColorStop(0.6, "#a5e27c");   //mitte
         gradient2.addColorStop(0.5, "transparent");   //unten
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);

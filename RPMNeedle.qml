@@ -19,7 +19,7 @@ Canvas {
         id: zeiger
         rotation: 90 //siehe minrotation
         width: 4
-        height: parent.width / 2
+        height: parent.width / 4
         transformOrigin: Item.Bottom
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.verticalCenter
@@ -66,18 +66,18 @@ Canvas {
         var ctx = getContext("2d");
         ctx.save();
 
-        var gradient2 = ctx.createRadialGradient((parent.width / 2),(parent.height / 2), 500, (parent.width / 2),(parent.height / 2),5);
-         gradient2.addColorStop(0.5, "#FFB108");   //oben
-        gradient2.addColorStop(0.48, "#FFB108");   //oben
-        gradient2.addColorStop(0.47, "#682E00");   //mitte
-        gradient2.addColorStop(0.33, "transparent");   //unten
+        var gradient2 = ctx.createRadialGradient((parent.width / 2),(parent.height / 2), 200, (parent.width / 2),(parent.height / 2),2);
+         gradient2.addColorStop(0.7, "#FFB108");   //oben
+        gradient2.addColorStop(0.6, "#FFB108");   //oben
+        gradient2.addColorStop(0.6, "#682E00");   //mitte
+        gradient2.addColorStop(0.5, "transparent");   //unten
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         ctx.beginPath();
         ctx.lineWidth = 150;
         ctx.strokeStyle = gradient2
-        ctx.arc(canvas.centerWidth, canvas.centerHeight, canvas.radius - (ctx.lineWidth / 2), canvas.angleOffset, canvas.angleOffset + canvas.angle, true);
+        ctx.arc(canvas.centerWidth, canvas.centerHeight, (canvas.radius - (ctx.lineWidth / 2))/3-4, canvas.angleOffset, canvas.angleOffset + canvas.angle, true);
         ctx.stroke();
 
         ctx.restore();
