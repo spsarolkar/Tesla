@@ -5,7 +5,7 @@ Item {
     property int speed: 0
 
 
-    height: 335 //TODO: Groesse skalierbar machen
+    height: 275 //TODO: Groesse skalierbar machen
     width: height
     x: (parent.width / 2) - (width / 2)
     y: (parent.height / 2) - (height / 2)
@@ -21,10 +21,10 @@ Item {
          Text {
              id: speeddigit
              text: speed
-             font.pixelSize: 86
+             font.pixelSize: 64
              font.bold: true
              font.family: "Eurostile"
-             y: 80
+             y: 50
              color: "white"
              anchors.horizontalCenter: parent.horizontalCenter
          }
@@ -41,10 +41,10 @@ Item {
 
          Text {
              text: "km/h"
-             font.pixelSize: 16
+             font.pixelSize: 12
              font.bold: true
              font.family: "Eurostile"
-             y: 172
+             y: 130
              color: "white"
              anchors.horizontalCenter: parent.horizontalCenter
          }
@@ -52,20 +52,20 @@ Item {
 
          Text {
              text: "209"
-             font.pixelSize: 34
+             font.pixelSize: 25
              font.bold: true
              font.family: "Eurostile"
-             y: 220
+             y: 170
              color: "white"
              anchors.horizontalCenter: parent.horizontalCenter
          }
 
          Text {
              text: "Total covered"
-             font.pixelSize: 18
+             font.pixelSize: 13
              font.bold: true
              font.family: "Eurostile"
-             y: 260
+             y: 200
              color: "#666666"
              anchors.horizontalCenter: parent.horizontalCenter
          }
