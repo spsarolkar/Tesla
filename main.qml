@@ -20,7 +20,7 @@ ApplicationWindow {
             RightElement {
                 id: rightRect
                 y: 50
-                x: parent.width / 2
+                x: parent.width / 1.5
                 width: parent.width / 2
                 height: 475
             }
@@ -54,7 +54,7 @@ ApplicationWindow {
     color: "transparent"
             RowLayout {
                    y: 50
-                   x: 200
+                   x: parent.width/15
                    Text {
                        text: "245"
                        font.pixelSize: 20
@@ -71,7 +71,7 @@ ApplicationWindow {
 
             RowLayout {
                    y: 50
-                   x: 350
+                   x: parent.width/5
                    Text {
                        text: "69º"
                        font.pixelSize: 20
@@ -89,7 +89,7 @@ ApplicationWindow {
 
             RowLayout {
                 y: 50
-                x: 950
+                x: parent.width/1.5
                 Text {
                     text: new Date().toLocaleDateString(Qt.locale(),"ddd") //ddd MMM d //h:mm AP
                     font.pixelSize: 20
@@ -106,7 +106,7 @@ ApplicationWindow {
 
             RowLayout {
                 y: 50
-                x: 1100
+                x: parent.width/1.2
                 Text {
                     text: new Date().toLocaleTimeString(Qt.locale(),"h:mm") //ddd MMM d //h:mm AP
                     font.pixelSize: 20

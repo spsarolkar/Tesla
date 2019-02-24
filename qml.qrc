@@ -28,5 +28,6 @@
         <file>pics/TachoRPM.png</file>
         <file>FuelNeedle.qml</file>
         <file>RPMNeedle.qml</file>
+        <file>pics/AndroidAuto.png</file>
     </qresource>
 </RCC>

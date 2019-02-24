@@ -15,13 +15,13 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         x: (parent.width - 250) - width/2
         fillMode: Image.PreserveAspectFit
-        scale: 1.4
-        source: "/pics/call.png"
+        scale: 0.5
+        source: "/pics/AndroidAuto.png"
 
         Text {
             id:callTime
-            y: 165; x: 128
-            font.family: "Eurostile"; color: "white"; font.pixelSize: 11
+            y: 165; x: parent.width/1.2
+            font.family: "Eurostile"; color: "white"; font.pixelSize: 20
             text: minutes + ":" + tenseconds + seconds
         }
     }
