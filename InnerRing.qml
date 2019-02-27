@@ -24,7 +24,7 @@ Item {
              font.pixelSize: 64
              font.bold: true
              font.family: "Eurostile"
-             y: 50
+             y: 90
              color: "white"
              anchors.horizontalCenter: parent.horizontalCenter
          }
@@ -44,18 +44,18 @@ Item {
              font.pixelSize: 12
              font.bold: true
              font.family: "Eurostile"
-             y: 130
+             y: 180
              color: "white"
              anchors.horizontalCenter: parent.horizontalCenter
          }
 
 
-         Text {
+         /*Text {
              text: "209"
              font.pixelSize: 25
              font.bold: true
              font.family: "Eurostile"
-             y: 170
+             y: 120
              color: "white"
              anchors.horizontalCenter: parent.horizontalCenter
          }
@@ -65,10 +65,10 @@ Item {
              font.pixelSize: 13
              font.bold: true
              font.family: "Eurostile"
-             y: 200
+             y: 150
              color: "#666666"
              anchors.horizontalCenter: parent.horizontalCenter
-         }
+         }*/
 
     }
 }

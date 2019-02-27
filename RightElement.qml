@@ -18,12 +18,21 @@ Rectangle {
         scale: 0.5
         source: "/pics/AndroidAuto.png"
 
+        MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    py_mainapp.startJob('test')
+                }
+       }
+
         Text {
             id:callTime
             y: 165; x: parent.width/1.2
             font.family: "Eurostile"; color: "white"; font.pixelSize: 20
             text: minutes + ":" + tenseconds + seconds
         }
+
+
     }
 
     Timer {

@@ -6,6 +6,7 @@ Rectangle {
 
               SpeedNeedle {
                   id: speedoNeedle
+                  objectName: 'speedoNeedle'
 
                        anchors.verticalCenterOffset: 0
                        anchors.centerIn: parent
@@ -14,21 +15,26 @@ Rectangle {
                        Keys.onPressed: {
                                 if (event.key == Qt.Key_Space && !event.isAutoRepeat) {
                                     speedoNeedle.value = 20
-                                    rpmNeedle.value = 3000
+                                    //rpmNeedle.value = 3000
                                     fuelNeedle.value = 75
                                     //innerring.info = "All good"
                                     drive()
+                                    py_mainapp.startJob('test')
                                 }
                        }
+
                        Keys.onReleased: {
                                if (event.key == Qt.Key_Space && !event.isAutoRepeat) {
                                    speedoNeedle.value = 0
                                    rpmNeedle.value = 0
                                    fuelNeedle.value = 0.01
-                               }}}
+                               }
+                       }
+              }
 
               RPMNeedle {
                   id: rpmNeedle
+                  objectName: 'rpmNeedle'
                   anchors.verticalCenterOffset: 0
                   anchors.centerIn: parent
                   value: 0
@@ -36,6 +42,7 @@ Rectangle {
 
               FuelNeedle {
                   id: fuelNeedle
+                  objectName: 'fuelNeedle'
                   anchors.verticalCenterOffset: 0
                   anchors.centerIn: parent
                   value: 0
