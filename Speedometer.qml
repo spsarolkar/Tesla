@@ -19,7 +19,7 @@ Rectangle {
                                     fuelNeedle.value = 75
                                     //innerring.info = "All good"
                                     drive()
-                                    py_mainapp.startJob('test')
+                                    //py_mainapp.startJob('test')
                                 }
                        }
 

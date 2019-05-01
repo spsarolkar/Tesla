@@ -5,6 +5,8 @@ import sys
 import quamash
 import asyncio
 import random
+import obd
+import time
 
 try:
     from PySide import QtCore
@@ -17,6 +19,30 @@ except:
     from PyQt5 import QtWidgets
     from PyQt5.QtQml import QQmlApplicationEngine,QQmlEngine, QQmlComponent
     import resources
+
+class ObdInterface:
+    def __init__(self,win):
+        self.win = win
+        self.connection = obd.Async()
+        self.rpmNeedle = self.win.findChild(QObject, 'rpmNeedle')
+        self.speedNeedle = self.win.findChild(QObject, 'speedoNeedle')
+        self.fuelNeedle = self.win.findChild(QObject, 'fuelNeedle')
+        self.connection.watch(obd.commands.RPM, callback=self.updateRpm)
+        self.connection.watch(obd.commands.SPEED, callback=self.updateSpeed)
+        self.connection.watch(obd.commands.FUEL_LEVEL, callback=self.updateFuel)
+
+    def updateRpm(self,r):
+        self.rpmNeedle.setProperty('value',r.value)
+
+    def updateSpeed(self,r):
+        self.speedNeedle.setProperty('value',r.value)
+
+    def updateFuel(self,r):
+        self.fuelNeedle.setProperty('value',r.value)
+
+    def start(self):
+        self.connection.start()
+
 
 class ObdMock:
     def __init__(self,baseValue,maxIncrement,maxValue,minValue):
@@ -102,11 +128,13 @@ if __name__ == "__main__":
     asyncio.set_event_loop(loop)  # NEW must set the event loop
     engine = QQmlApplicationEngine()
     ctx = engine.rootContext()
+    #ctx.setContextProperty("py_mainapp", py_mainapp)
     engine.load(QUrl('qrc:/main.qml'))
     win = engine.rootObjects()[0]
-    py_mainapp = MainApp(ctx, loop, win )
-    ctx.setContextProperty("py_mainapp", py_mainapp)
+    #py_mainapp = MainApp(ctx, loop, win )
     win.show();
+    obdi = ObdInterface(win)
+    obdi.start()
     #py_mainapp.start();
     #QtCore.QTimer.singleShot(1000000, py_mainapp.onStart())
     loop.run_forever()

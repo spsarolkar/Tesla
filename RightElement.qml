@@ -21,7 +21,7 @@ Rectangle {
         MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    py_mainapp.startJob('test')
+                   // py_mainapp.startJob('test')
                 }
        }
 
