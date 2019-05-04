@@ -32,16 +32,16 @@ class ObdInterface:
         self.connection.watch(obd.commands.FUEL_LEVEL, callback=self.updateFuel)
 
     def updateRpm(self,r):
-        print('rpm received - ' + r.value)
-        self.rpmNeedle.setProperty('value',r.value)
+        if is not r.is_null()
+            self.rpmNeedle.setProperty('value',r.value.magnitude)
 
     def updateSpeed(self,r):
-        print('speed received - ' + r.value)
-        self.speedNeedle.setProperty('value',r.value)
+        if is not r.is_null()
+            self.speedNeedle.setProperty('value',r.value.magnitude)
 
     def updateFuel(self,r):
-        print('fuel received - ' + r.value)
-        self.fuelNeedle.setProperty('value',r.value)
+        if is not r.is_null()
+            self.fuelNeedle.setProperty('value',r.value.magnitude)
 
     def start(self):
         self.connection.start()

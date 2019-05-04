@@ -28,6 +28,7 @@ ath1
 atsp0
 
 010D --> speed
+012F --> fuel level
 
 edit /etc/rc.local
 
