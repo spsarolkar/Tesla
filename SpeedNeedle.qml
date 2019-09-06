@@ -65,11 +65,11 @@ Canvas {
           var ctx = getContext("2d");
           ctx.save();
 
-          var gradient2 = ctx.createRadialGradient((parent.width / 2),(parent.height / 2), 0, (parent.width / 2),(parent.height / 2),0);
-           gradient2.addColorStop(0.5, "#81FFFE");   //oben
-          gradient2.addColorStop(0.4, "#81FFFE");   //oben
-          gradient2.addColorStop(0.4, "#112478");   //mitte
-          gradient2.addColorStop(0.3, "transparent");   //unten
+          var gradient2 = ctx.createRadialGradient((parent.width / 2),(parent.height / 2), 200, (parent.width / 2),(parent.height / 2),2);
+           gradient2.addColorStop(0.8, "#81FFFE");   //oben
+          gradient2.addColorStop(0.75, "#81FFFE");   //oben
+          gradient2.addColorStop(0.65, "#A2FCFC");   //mitte
+          gradient2.addColorStop(0.5, "transparent");   //unten
 
           ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -79,7 +79,7 @@ Canvas {
 
 
 
-          ctx.arc(canvas.centerWidth, canvas.centerHeight, canvas.radius - (ctx.lineWidth / 2)/3-4, canvas.angleOffset, canvas.angleOffset + canvas.angle);
+          ctx.arc(canvas.centerWidth, canvas.centerHeight, canvas.radius/2 - (ctx.lineWidth / 2), canvas.angleOffset, canvas.angleOffset + canvas.angle);
           ctx.stroke();
 
           ctx.restore();

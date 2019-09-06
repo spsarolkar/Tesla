@@ -27,20 +27,26 @@ class ObdInterface:
         self.rpmNeedle = self.win.findChild(QObject, 'rpmNeedle')
         self.speedNeedle = self.win.findChild(QObject, 'speedoNeedle')
         self.fuelNeedle = self.win.findChild(QObject, 'fuelNeedle')
+        self.rpmNeedle.setProperty('value',0)
+        self.speedNeedle.setProperty('value',0)
+        self.fuelNeedle.setProperty('value',0)
         self.connection.watch(obd.commands.RPM, callback=self.updateRpm)
         self.connection.watch(obd.commands.SPEED, callback=self.updateSpeed)
-        self.connection.watch(obd.commands.FUEL_LEVEL, callback=self.updateFuel)
+        #self.connection.watch(obd.commands.FUEL_LEVEL, callback=self.updateFuel)
 
     def updateRpm(self,r):
-        if is not r.is_null()
+        if not r.is_null():
+            print("RPM "+str(r.value.magnitude))
             self.rpmNeedle.setProperty('value',r.value.magnitude)
 
     def updateSpeed(self,r):
-        if is not r.is_null()
+        if not r.is_null():
+            print("SPEED "+str(r.value.magnitude))
             self.speedNeedle.setProperty('value',r.value.magnitude)
 
     def updateFuel(self,r):
-        if is not r.is_null()
+        if not r.is_null():
+            print("FUEL "+str(r.value))
             self.fuelNeedle.setProperty('value',r.value.magnitude)
 
     def start(self):
@@ -111,9 +117,9 @@ class MainApp(QObject):
             await asyncio.sleep(2)
 
     @Slot(QVariant)
-    def startJob(self,mes):
+    def startJob(self):
         loop = asyncio.get_event_loop()
-        task = loop.create_task(self.setSpeed());
+        #task = loop.create_task(self.setSpeed());
         asyncio.ensure_future(self.setSpeed());
         asyncio.ensure_future(self.setRpm());
         asyncio.ensure_future(self.setFuel());
@@ -134,11 +140,11 @@ if __name__ == "__main__":
     #ctx.setContextProperty("py_mainapp", py_mainapp)
     engine.load(QUrl('qrc:/main.qml'))
     win = engine.rootObjects()[0]
-    #py_mainapp = MainApp(ctx, loop, win )
+    py_mainapp = MainApp(ctx, loop, win )
     win.show();
-    obdi = ObdInterface(win)
-    obdi.start()
-    #py_mainapp.start();
+    #obdi = ObdInterface(win)
+    #obdi.start()
+    py_mainapp.startJob();
     #QtCore.QTimer.singleShot(1000000, py_mainapp.onStart())
     loop.run_forever()
     #sys.exit(app.exec_())
