@@ -100,13 +100,15 @@ class MainApp(QObject):
         self.mockSpeed = ObdMock(20,10,100,0)
         self.mockRpm = ObdMock(1000,400,5000,0)
         self.mockFuel = ObdMock(100,1,100,0)
+        self.mockEngineTemp = ObdMock(30,5,100,0)
+        self.mockKm = ObdMock(4000,1,10000,0)
 
     async def setSpeed(self):
         print("started scanning speed")
         while True:
             speedNeedle = self.win.findChild(QObject, 'speedoNeedle')
             rpmNeedle = self.win.findChild(QObject, 'rpmNeedle')
-            rpmNeedle = self.win.findChild(QObject, 'fuelNeedle')
+            fuelNeedle = self.win.findChild(QObject, 'fuelNeedle')
             speed = self.mockSpeed.getValue()
             print("speed "+str(speed))
             speedNeedle.setProperty('value',speed)
@@ -126,8 +128,26 @@ class MainApp(QObject):
         while True:
             rpmNeedle = self.win.findChild(QObject, 'fuelNeedle')
             fuel = self.mockFuel.getValue()
-            print("rpm "+str(fuel))
+            print("fuel "+str(fuel))
             rpmNeedle.setProperty('value',fuel)
+            await asyncio.sleep(2)
+
+    async def setKm(self):
+        print("started scanning Kms")
+        while True:
+            totalKms = self.win.findChild(QObject, 'totalKms')
+            kms = self.mockKm.getValue()
+            print("kms "+str(kms))
+            totalKms.setProperty('text',kms)
+            await asyncio.sleep(2)
+
+    async def setCoolantTemp(self):
+        print("started scanning Temperature ")
+        while True:
+            engineTemp = self.win.findChild(QObject, 'enginTemp')
+            temp = self.mockEngineTemp.getValue()
+            print("temp "+str(temp))
+            engineTemp.setProperty('text',temp)
             await asyncio.sleep(2)
 
     @Slot(QVariant)
@@ -137,6 +157,8 @@ class MainApp(QObject):
         asyncio.ensure_future(self.setSpeed());
         asyncio.ensure_future(self.setRpm());
         asyncio.ensure_future(self.setFuel());
+        asyncio.ensure_future(self.setKm());
+        asyncio.ensure_future(self.setCoolantTemp());
 
     def onStart(self):
         print("Test");
@@ -156,8 +178,13 @@ if __name__ == "__main__":
     win = engine.rootObjects()[0]
     py_mainapp = MainApp(ctx, loop, win )
     win.show();
-    #obdi = ObdInterface(win)
-    #obdi.start()
+    print("aquiring the interface")
+    #try:
+    #    obdi = ObdInterface(win)
+    #    obdi.start()
+    #except:
+    #    print("Error connecting")
+    #    time.sleep(2)
     py_mainapp.startJob();
     #QtCore.QTimer.singleShot(1000000, py_mainapp.onStart())
     loop.run_forever()
