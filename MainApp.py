@@ -23,7 +23,7 @@ except:
 class ObdInterface:
     def __init__(self,win):
         self.win = win
-        self.connection = obd.Async()
+        self.connection = obd.Async("/dev/rfcomm0")
         self.rpmNeedle = self.win.findChild(QObject, 'rpmNeedle')
         self.speedNeedle = self.win.findChild(QObject, 'speedoNeedle')
         self.fuelNeedle = self.win.findChild(QObject, 'fuelNeedle')
