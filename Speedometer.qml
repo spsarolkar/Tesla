@@ -58,6 +58,7 @@ Rectangle {
                   anchors.horizontalCenter: parent.horizontalCenter
                   y: parent.height - 65
                   columns: 4
+                  visible: false
                    Rectangle { color: "transparent"; width: 25; height: 25
                       Text {
                           id: letterP
@@ -104,3 +105,9 @@ Rectangle {
 
 
 
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

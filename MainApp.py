@@ -27,17 +27,31 @@ class ObdInterface:
         self.rpmNeedle = self.win.findChild(QObject, 'rpmNeedle')
         self.speedNeedle = self.win.findChild(QObject, 'speedoNeedle')
         self.fuelNeedle = self.win.findChild(QObject, 'fuelNeedle')
+        self.totalKms = self.win.findChild(QObject, 'totalKms')
+        self.enginTemp = self.win.findChild(QObject, 'enginTemp')
         self.rpmNeedle.setProperty('value',0)
         self.speedNeedle.setProperty('value',0)
         self.fuelNeedle.setProperty('value',0)
         self.connection.watch(obd.commands.RPM, callback=self.updateRpm)
         self.connection.watch(obd.commands.SPEED, callback=self.updateSpeed)
-        #self.connection.watch(obd.commands.FUEL_LEVEL, callback=self.updateFuel)
+        self.connection.watch(obd.commands.ENGINE_LOAD, callback=self.updateFuel)
+        self.connection.watch(obd.commands.DISTANCE_W_MIL, callback=self.updateKms)
+        self.connection.watch(obd.commands.COOLANT_TEMP, callback=self.updateTemp)
 
     def updateRpm(self,r):
         if not r.is_null():
             print("RPM "+str(r.value.magnitude))
             self.rpmNeedle.setProperty('value',r.value.magnitude)
+
+    def updateKms(self,r):
+        if not r.is_null():
+            print("Kms "+str(r.value.magnitude))
+            self.totalKms.setProperty('value',r.value.magnitude)
+
+    def updateTemp(self,r):
+        if not r.is_null():
+            print("Temp "+str(r.value.magnitude))
+            self.engineTemp.setProperty('value',r.value.magnitude)
 
     def updateSpeed(self,r):
         if not r.is_null():

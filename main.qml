@@ -11,19 +11,7 @@ ApplicationWindow {
     visible: true
     color: "black"
 
-            LeftElement {
-                y: 50
-                width: parent.width / 2
-                height: 450
-            }
 
-            RightElement {
-                id: rightRect
-                y: 50
-                x: parent.width / 1.5
-                width: parent.width / 2
-                height: 475
-            }
 
 
        QtObject {
@@ -56,13 +44,14 @@ ApplicationWindow {
                    y: 50
                    x: parent.width/15
                    Text {
-                       text: "245"
+                       objectName: "totalKms"
+                       text: "--"
                        font.pixelSize: 20
                        font.bold: true
                        color: "white"
                    }
                    Text {
-                       text: "mi"
+                       text: "km"
                        font.pixelSize: 20
                        font.bold: false
                        color: "darkgray"
@@ -73,13 +62,21 @@ ApplicationWindow {
                    y: 50
                    x: parent.width/5
                    Text {
-                       text: "69º"
+
+                       text: "Coolant Temp"
                        font.pixelSize: 20
                        font.bold: true
                        color: "white"
                    }
                    Text {
-                       text: "F"
+                       objectName: "enginTemp"
+                       text: "--"
+                       font.pixelSize: 20
+                       font.bold: true
+                       color: "white"
+                   }
+                   Text {
+                       text: "ºC"
                        font.pixelSize: 20
                        font.bold: false
                        color: "darkgray"
