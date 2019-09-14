@@ -59,8 +59,8 @@ ApplicationWindow {
                }
 
             RowLayout {
-                   y: 50
-                   x: parent.width/5
+                   y: -470
+                   x: parent.width/10
                    Text {
 
                        text: "Coolant Temp"
