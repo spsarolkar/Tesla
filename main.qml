@@ -59,11 +59,11 @@ ApplicationWindow {
                }
 
             RowLayout {
-                   y: -470
-                   x: parent.width/10
+                   y: -370
+                   x: 15
                    Text {
 
-                       text: "Coolant Temp"
+                       text: "Coolant Temp: "
                        font.pixelSize: 20
                        font.bold: true
                        color: "white"
@@ -73,7 +73,7 @@ ApplicationWindow {
                        text: "--"
                        font.pixelSize: 20
                        font.bold: true
-                       color: "white"
+                       color: "darkgray"
                    }
                    Text {
                        text: "ºC"
