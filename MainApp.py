@@ -23,10 +23,10 @@ except:
 class ObdInterface:
     def __init__(self,win):
         self.win = win
-        self.connection = obd.Async("/dev/rfcomm0")
         #self.rpmNeedle.setProperty('value',0)
         #self.speedNeedle.setProperty('value',0)
         #self.fuelNeedle.setProperty('value',0)
+        self.connection = obd.Async(portstr="/dev/rfcomm0",fast=False,timeout=30)
         self.connection.watch(obd.commands.RPM, callback=self.updateRpm)
         self.connection.watch(obd.commands.SPEED, callback=self.updateSpeed)
         self.connection.watch(obd.commands.ENGINE_LOAD, callback=self.updateFuel)
@@ -43,13 +43,13 @@ class ObdInterface:
         if not r.is_null():
             totalKms = self.win.findChild(QObject, 'totalKms')
             print("Kms "+str(r.value.magnitude))
-            totalKms.setProperty('value',r.value.magnitude)
+            totalKms.setProperty('text',r.value.magnitude)
 
     def updateTemp(self,r):
         if not r.is_null():
             enginTemp = self.win.findChild(QObject, 'enginTemp')
             print("Temp "+str(r.value.magnitude))
-            engineTemp.setProperty('value',r.value.magnitude)
+            enginTemp.setProperty('text',r.value.magnitude)
 
     def updateSpeed(self,r):
         if not r.is_null():
@@ -176,16 +176,16 @@ if __name__ == "__main__":
     #ctx.setContextProperty("py_mainapp", py_mainapp)
     engine.load(QUrl('qrc:/main.qml'))
     win = engine.rootObjects()[0]
-    py_mainapp = MainApp(ctx, loop, win )
+    #py_mainapp = MainApp(ctx, loop, win )
     win.show();
     print("aquiring the interface")
-    #try:
-    #    obdi = ObdInterface(win)
-    #    obdi.start()
-    #except:
-    #    print("Error connecting")
-    #    time.sleep(2)
-    py_mainapp.startJob();
+    try:
+        obdi = ObdInterface(win)
+        obdi.start()
+    except:
+        print("Error connecting")
+        time.sleep(2)
+    #py_mainapp.startJob();
     #QtCore.QTimer.singleShot(1000000, py_mainapp.onStart())
     loop.run_forever()
     #sys.exit(app.exec_())
