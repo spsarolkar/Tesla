@@ -24,14 +24,9 @@ class ObdInterface:
     def __init__(self,win):
         self.win = win
         self.connection = obd.Async("/dev/rfcomm0")
-        self.rpmNeedle = self.win.findChild(QObject, 'rpmNeedle')
-        self.speedNeedle = self.win.findChild(QObject, 'speedoNeedle')
-        self.fuelNeedle = self.win.findChild(QObject, 'fuelNeedle')
-        self.totalKms = self.win.findChild(QObject, 'totalKms')
-        self.enginTemp = self.win.findChild(QObject, 'enginTemp')
-        self.rpmNeedle.setProperty('value',0)
-        self.speedNeedle.setProperty('value',0)
-        self.fuelNeedle.setProperty('value',0)
+        #self.rpmNeedle.setProperty('value',0)
+        #self.speedNeedle.setProperty('value',0)
+        #self.fuelNeedle.setProperty('value',0)
         self.connection.watch(obd.commands.RPM, callback=self.updateRpm)
         self.connection.watch(obd.commands.SPEED, callback=self.updateSpeed)
         self.connection.watch(obd.commands.ENGINE_LOAD, callback=self.updateFuel)
@@ -40,28 +35,33 @@ class ObdInterface:
 
     def updateRpm(self,r):
         if not r.is_null():
+            rpmNeedle = self.win.findChild(QObject, 'rpmNeedle')
             print("RPM "+str(r.value.magnitude))
-            self.rpmNeedle.setProperty('value',r.value.magnitude)
+            rpmNeedle.setProperty('value',r.value.magnitude)
 
     def updateKms(self,r):
         if not r.is_null():
+            totalKms = self.win.findChild(QObject, 'totalKms')
             print("Kms "+str(r.value.magnitude))
-            self.totalKms.setProperty('value',r.value.magnitude)
+            totalKms.setProperty('value',r.value.magnitude)
 
     def updateTemp(self,r):
         if not r.is_null():
+            enginTemp = self.win.findChild(QObject, 'enginTemp')
             print("Temp "+str(r.value.magnitude))
-            self.engineTemp.setProperty('value',r.value.magnitude)
+            engineTemp.setProperty('value',r.value.magnitude)
 
     def updateSpeed(self,r):
         if not r.is_null():
+            speedNeedle = self.win.findChild(QObject, 'speedoNeedle')
             print("SPEED "+str(r.value.magnitude))
-            self.speedNeedle.setProperty('value',r.value.magnitude)
+            speedNeedle.setProperty('value',r.value.magnitude)
 
     def updateFuel(self,r):
         if not r.is_null():
+            fuelNeedle = self.win.findChild(QObject, 'fuelNeedle')
             print("FUEL "+str(r.value))
-            self.fuelNeedle.setProperty('value',r.value.magnitude)
+            fuelNeedle.setProperty('value',r.value.magnitude)
 
     def start(self):
         self.connection.start()
