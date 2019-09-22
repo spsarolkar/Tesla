@@ -20,7 +20,7 @@ except:
     from PyQt5.QtQml import QQmlApplicationEngine,QQmlEngine, QQmlComponent
     import resources
 
-class ObdInterface:
+class ObdInterface(QObject):
     def __init__(self,win):
         self.win = win
         #self.rpmNeedle.setProperty('value',0)
@@ -92,11 +92,15 @@ class ObdMock:
 
 
 class MainApp(QObject):
+
+    speedChangeSignal = pyqtSignal()
+    
     def __init__(self, context, loop, parent=None):
         super(MainApp, self).__init__(parent)
         self.win = parent
         self.ctx = context
         self.loop = loop
+        self.speedChangeSignal.connect(self.updateSpeed, Qt.QueuedConnection)
         self.mockSpeed = ObdMock(20,10,100,0)
         self.mockRpm = ObdMock(1000,400,5000,0)
         self.mockFuel = ObdMock(100,1,100,0)
@@ -106,13 +110,17 @@ class MainApp(QObject):
     async def setSpeed(self):
         print("started scanning speed")
         while True:
-            speedNeedle = self.win.findChild(QObject, 'speedoNeedle')
-            rpmNeedle = self.win.findChild(QObject, 'rpmNeedle')
-            fuelNeedle = self.win.findChild(QObject, 'fuelNeedle')
             speed = self.mockSpeed.getValue()
             print("speed "+str(speed))
-            speedNeedle.setProperty('value',speed)
+            self.speedChangeSignal.emit(speed)
             await asyncio.sleep(1)
+
+
+    def updateSpeed(self,value):
+            speedNeedle = self.win.findChild(QObject, 'speedoNeedle')
+            speedNeedle.setProperty('value',speed)
+        
+
 
     async def setRpm(self):
         print("started scanning rpm")
@@ -176,16 +184,16 @@ if __name__ == "__main__":
     #ctx.setContextProperty("py_mainapp", py_mainapp)
     engine.load(QUrl('qrc:/main.qml'))
     win = engine.rootObjects()[0]
-    #py_mainapp = MainApp(ctx, loop, win )
+    py_mainapp = MainApp(ctx, loop, win )
     win.show();
     print("aquiring the interface")
-    try:
-        obdi = ObdInterface(win)
-        obdi.start()
-    except:
-        print("Error connecting")
-        time.sleep(2)
-    #py_mainapp.startJob();
+    #try:
+    #    obdi = ObdInterface(win)
+    #    obdi.start()
+    #except:
+    #    print("Error connecting")
+    #    time.sleep(2)
+    py_mainapp.startJob();
     #QtCore.QTimer.singleShot(1000000, py_mainapp.onStart())
     loop.run_forever()
     #sys.exit(app.exec_())
