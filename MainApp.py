@@ -21,12 +21,25 @@ except:
     import resources
 
 class ObdInterface(QObject):
+    speedChangeSignal = pyqtSignal(int)
+    engineLoadChangeSignal = pyqtSignal(int)
+    rpmChangeSignal = pyqtSignal(int)
+    coolantTempChangeSignal = pyqtSignal(int)
+    kmsChangeSignal = pyqtSignal(int)
+
     def __init__(self,win):
+        super(ObdInterface, self).__init__(win)
         self.win = win
         #self.rpmNeedle.setProperty('value',0)
         #self.speedNeedle.setProperty('value',0)
         #self.fuelNeedle.setProperty('value',0)
         self.connection = obd.Async(portstr="/dev/rfcomm0",fast=False,timeout=30)
+        obd.logger.setLevel(obd.logging.DEBUG)
+        self.speedChangeSignal.connect(self.updateSpeedUI, Qt.QueuedConnection)
+        self.engineLoadChangeSignal.connect(self.updateEngineLoadUI, Qt.QueuedConnection)
+        self.coolantTempChangeSignal.connect(self.updateCoolantTempUI, Qt.QueuedConnection)
+        self.rpmChangeSignal.connect(self.updateRpmUI, Qt.QueuedConnection)
+        self.kmsChangeSignal.connect(self.updateKmsUI, Qt.QueuedConnection)
         self.connection.watch(obd.commands.RPM, callback=self.updateRpm)
         self.connection.watch(obd.commands.SPEED, callback=self.updateSpeed)
         self.connection.watch(obd.commands.ENGINE_LOAD, callback=self.updateFuel)
@@ -35,33 +48,54 @@ class ObdInterface(QObject):
 
     def updateRpm(self,r):
         if not r.is_null():
-            rpmNeedle = self.win.findChild(QObject, 'rpmNeedle')
-            print("RPM "+str(r.value.magnitude))
-            rpmNeedle.setProperty('value',r.value.magnitude)
+            print("RPM "+str(r.value))
+            self.rpmChangeSignal.emit(r.value.magnitude)
 
     def updateKms(self,r):
         if not r.is_null():
-            totalKms = self.win.findChild(QObject, 'totalKms')
-            print("Kms "+str(r.value.magnitude))
-            totalKms.setProperty('text',r.value.magnitude)
+            print("Kms "+str(r.value))
+            self.kmsChangeSignal.emit(r.value.magnitude)
 
     def updateTemp(self,r):
         if not r.is_null():
-            enginTemp = self.win.findChild(QObject, 'enginTemp')
-            print("Temp "+str(r.value.magnitude))
-            enginTemp.setProperty('text',r.value.magnitude)
+            print("Temp "+str(r.value))
+            self.coolantTempChangeSignal.emit(r.value.magnitude)
 
     def updateSpeed(self,r):
         if not r.is_null():
-            speedNeedle = self.win.findChild(QObject, 'speedoNeedle')
-            print("SPEED "+str(r.value.magnitude))
-            speedNeedle.setProperty('value',r.value.magnitude)
+            print("SPEED "+str(r.value))
+            self.speedChangeSignal.emit(r.value.magnitude)
 
+    def updateKmsUI(self,value):
+        totalKms = self.win.findChild(QObject, 'totalKms')
+        totalKms.setProperty('text',int(value))
+        print("Kms set success")
+ 
+    def updateSpeedUI(self,value):
+        speedNeedle = self.win.findChild(QObject, 'speedoNeedle')
+        speedNeedle.setProperty('value',int(value))
+        print("Speed set success")
+ 
+    def updateRpmUI(self,value):
+        rpmNeedle = self.win.findChild(QObject, 'rpmNeedle')
+        rpmNeedle.setProperty('value',int(value))
+        print("RPM set success")
+ 
+    def updateCoolantTempUI(self,value):
+        enginTemp = self.win.findChild(QObject, 'enginTemp')
+        enginTemp.setProperty('text',int(value))
+        print("CoolantTemp set success")
+ 
+
+    def updateEngineLoadUI(self,value):
+        fuelNeedle = self.win.findChild(QObject, 'fuelNeedle')
+        fuelNeedle.setProperty('value',int(value))
+        print("Engine Load set success")
+ 
     def updateFuel(self,r):
         if not r.is_null():
-            fuelNeedle = self.win.findChild(QObject, 'fuelNeedle')
-            print("FUEL "+str(r.value))
-            fuelNeedle.setProperty('value',r.value.magnitude)
+            print("Engine Load "+str(r.value))
+            self.engineLoadChangeSignal.emit(r.value.magnitude)
 
     def start(self):
         self.connection.start()
@@ -93,7 +127,7 @@ class ObdMock:
 
 class MainApp(QObject):
 
-    speedChangeSignal = pyqtSignal()
+    speedChangeSignal = pyqtSignal(int)
     
     def __init__(self, context, loop, parent=None):
         super(MainApp, self).__init__(parent)
@@ -118,7 +152,7 @@ class MainApp(QObject):
 
     def updateSpeed(self,value):
             speedNeedle = self.win.findChild(QObject, 'speedoNeedle')
-            speedNeedle.setProperty('value',speed)
+            speedNeedle.setProperty('value',value)
         
 
 
@@ -161,7 +195,7 @@ class MainApp(QObject):
     @Slot(QVariant)
     def startJob(self):
         loop = asyncio.get_event_loop()
-        #task = loop.create_task(self.setSpeed());
+        task = loop.create_task(self.setSpeed());
         asyncio.ensure_future(self.setSpeed());
         asyncio.ensure_future(self.setRpm());
         asyncio.ensure_future(self.setFuel());
@@ -184,16 +218,18 @@ if __name__ == "__main__":
     #ctx.setContextProperty("py_mainapp", py_mainapp)
     engine.load(QUrl('qrc:/main.qml'))
     win = engine.rootObjects()[0]
-    py_mainapp = MainApp(ctx, loop, win )
+    #py_mainapp = MainApp(ctx, loop, win )
     win.show();
     print("aquiring the interface")
-    #try:
-    #    obdi = ObdInterface(win)
-    #    obdi.start()
-    #except:
-    #    print("Error connecting")
-    #    time.sleep(2)
-    py_mainapp.startJob();
+    try:
+        obdi = ObdInterface(win)
+        obdi.start()
+    except:
+        print("Error connecting")
+        time.sleep(2)
+        traceback.print_exc()
+    #py_mainapp.startJob();
     #QtCore.QTimer.singleShot(1000000, py_mainapp.onStart())
     loop.run_forever()
+    print("Program ended")
     #sys.exit(app.exec_())
