@@ -9,7 +9,7 @@ This project demonstrates how to read real-time vehicle telemetry like **speed**
 
 ## 📽️ Demo Video
 
-👉 **[Watch the demo here](#)**  
+👉 **[Watch the demo here](https://youtu.be/X3aA26rKwIs)**  
 _(Replace `#` with your YouTube or Vimeo link)_
 
 ---
